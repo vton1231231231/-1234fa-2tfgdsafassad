@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Findium Report</title>
+    <style>
+        body {
+            background-color: #0f1115;
+            color: #e0e0e0;
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 28px;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            margin: 4px 0 12px;
+        }
+        .card {
+            background-color: #1b1f29;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #007acc;
+            color: #ffffff;
+            padding: 14px 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .field {
+            display: flex;
+            padding: 10px 20px;
+            border-bottom: 1px solid #2b2f3a;
+        }
+        .field:last-child {
+            border-bottom: none;
+        }
+        .label {
+            width: 220px;
+            color: #9aa0ac;
+            font-weight: 500;
+        }
+        .value {
+            color: #ffffff;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📄 Отчёт Findium</h1>
+    <p><b>Запрос:</b> {{ query }}</p>
+    <p><b>Дата:</b> {{ date }}</p>
+
+    {% if results is iterable and results is not string %}
+        {% for key, entry in results.items() %}
+            <div class="card">
+                <div class="header">
+                    {% if entry.database %}
+                        База данных: {{ entry.database }}
+                    {% else %}
+                        {{ key }}
+                    {% endif %}
+                </div>
+                {% for k, v in entry.items() %}
+                    <div class="field">
+                        <div class="label">{{ k }}:</div>
+                        <div class="value">{{ v }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="card">
+            <div class="header">Данные</div>
+            {% for k, v in results.items() %}
+                <div class="field">
+                    <div class="label">{{ k }}:</div>
+                    <div class="value">{{ v }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+</body>
+</html>
